@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://hcta4283677g"]
+
+[ext_resource type="Texture2D" uid="uid://dn2tb1t1blyyq" path="res://WaveShooter/Square.png" id="1_y7jy5"]
+[ext_resource type="Script" path="res://BOSS.gd" id="2_jqa7b"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_m602a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hvkpo"]
+size = Vector2(10.6667, 10.6147)
+
+[node name="BOSS" type="Sprite2D"]
+material = SubResource("CanvasItemMaterial_m602a")
+position = Vector2(2, 0)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_y7jy5")
+script = ExtResource("2_jqa7b")
+speeed = 200
+recuo = 9
+hp = 5
+cor = "Branco"
+
+[node name="Hitbox" type="Area2D" parent="." groups=["Enemy"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(2.38419e-07, 0)
+scale = Vector2(1.5, 1.5)
+shape = SubResource("RectangleShape2D_hvkpo")
+
+[node name="Recuo" type="Timer" parent="."]
+wait_time = 0.3
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

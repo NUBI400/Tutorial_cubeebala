@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://wr7w0lflnqps"]
+
+[ext_resource type="Texture2D" uid="uid://dn2tb1t1blyyq" path="res://WaveShooter/Square.png" id="1_ly8i2"]
+[ext_resource type="Script" path="res://enemy.gd" id="2_6mqu5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q47gg"]
+size = Vector2(16, 16)
+
+[node name="Enemy" type="Sprite2D"]
+modulate = Color(1, 1, 0, 1)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_ly8i2")
+script = ExtResource("2_6mqu5")
+speeed = 175
+recuo = 400
+hp = 3
+cor = "Outra"
+
+[node name="Hitbox" type="Area2D" parent="." groups=["Enemy"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+visible = false
+shape = SubResource("RectangleShape2D_q47gg")
+
+[node name="Recuo" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

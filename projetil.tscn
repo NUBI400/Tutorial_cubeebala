@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://35tvfua3unjb"]
+
+[ext_resource type="Texture2D" uid="uid://dn2tb1t1blyyq" path="res://WaveShooter/Square.png" id="1_md2fk"]
+[ext_resource type="Script" path="res://scripts/projetil.gd" id="2_tpla3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gdav4"]
+size = Vector2(16, 16)
+
+[node name="projetil" type="Sprite2D"]
+modulate = Color(1, 0.298039, 0.741176, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_md2fk")
+script = ExtResource("2_tpla3")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+visible = false
+position = Vector2(3.57628e-07, 5.96046e-07)
+
+[node name="Hitbox" type="Area2D" parent="." groups=["Enemy_damage"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_gdav4")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

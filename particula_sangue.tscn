@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://dprv6h2qk58dg"]
+
+[ext_resource type="Texture2D" uid="uid://dc07tkp4kwoc4" path="res://WaveShooter/Circle.png" id="1_h8ihe"]
+[ext_resource type="Script" path="res://particula_sangue.gd" id="2_xl20j"]
+
+[node name="particula_sangue" type="CPUParticles2D"]
+z_index = -10
+amount = 15
+explosiveness = 1.0
+randomness = 1.0
+local_coords = true
+texture = ExtResource("1_h8ihe")
+spread = 10.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 200.0
+initial_velocity_max = 658.0
+scale_amount_min = 0.04
+scale_amount_max = 0.08
+script = ExtResource("2_xl20j")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

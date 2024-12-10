@@ -1,0 +1,105 @@
+[gd_scene load_steps=12 format=3 uid="uid://ckvuwuy78cvqb"]
+
+[ext_resource type="Script" path="res://scripts/arena.gd" id="1_2x3ik"]
+[ext_resource type="PackedScene" uid="uid://bcaefxcyikjy4" path="res://jogador.tscn" id="1_fljgm"]
+[ext_resource type="PackedScene" uid="uid://wr7w0lflnqps" path="res://enemy.tscn" id="3_nn3us"]
+[ext_resource type="Script" path="res://RichTextLabel.gd" id="3_tcvex"]
+[ext_resource type="FontFile" uid="uid://mphkufp4i7uo" path="res://WaveShooter/Font.ttf" id="4_qc3bq"]
+[ext_resource type="Script" path="res://Pontos.gd" id="5_mxod3"]
+[ext_resource type="Script" path="res://Camera.gd" id="6_h0d7u"]
+[ext_resource type="Script" path="res://recorde.gd" id="6_pc0fe"]
+[ext_resource type="PackedScene" uid="uid://hcta4283677g" path="res://boss.tscn" id="8_okceu"]
+[ext_resource type="Script" path="res://correr.gd" id="10_2q3cq"]
+
+[sub_resource type="Environment" id="Environment_kyow5"]
+background_mode = 3
+glow_enabled = true
+glow_normalized = true
+glow_bloom = 0.75
+glow_blend_mode = 0
+glow_map_strength = 1.0
+
+[node name="arena" type="Node2D"]
+script = ExtResource("1_2x3ik")
+inimigos = Array[PackedScene]([ExtResource("8_okceu"), ExtResource("3_nn3us")])
+
+[node name="jogador" parent="." instance=ExtResource("1_fljgm")]
+position = Vector2(640, 360)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_kyow5")
+
+[node name="Timer_spawn_inimigo" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="Timer_dificuldade" type="Timer" parent="."]
+autostart = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_right = 1280.0
+offset_bottom = 104.0
+theme_override_fonts/normal_font = ExtResource("4_qc3bq")
+theme_override_font_sizes/normal_font_size = 60
+script = ExtResource("3_tcvex")
+
+[node name="Timer" type="Timer" parent="RichTextLabel"]
+autostart = true
+
+[node name="UI" type="Node2D" parent="."]
+z_index = 20
+
+[node name="Control" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Pontos" type="Label" parent="UI/Control"]
+layout_mode = 0
+offset_right = 1284.0
+offset_bottom = 80.0
+theme_override_fonts/font = ExtResource("4_qc3bq")
+theme_override_font_sizes/font_size = 80
+text = "100
+"
+horizontal_alignment = 1
+script = ExtResource("5_mxod3")
+
+[node name="recorde" type="Label" parent="UI/Control"]
+layout_mode = 0
+offset_left = 1007.0
+offset_right = 1275.0
+offset_bottom = 86.0
+theme_override_fonts/font = ExtResource("4_qc3bq")
+theme_override_font_sizes/font_size = 60
+text = "100
+"
+horizontal_alignment = 1
+script = ExtResource("6_pc0fe")
+
+[node name="correr" type="Label" parent="UI/Control"]
+layout_mode = 0
+offset_top = 636.0
+offset_right = 184.0
+offset_bottom = 747.0
+theme_override_fonts/font = ExtResource("4_qc3bq")
+theme_override_font_sizes/font_size = 60
+text = "
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("10_2q3cq")
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+script = ExtResource("6_h0d7u")
+
+[node name="Timer_camera" type="Timer" parent="Camera"]
+
+[connection signal="timeout" from="Timer_spawn_inimigo" to="." method="_on_timer_spawn_inimigo_timeout"]
+[connection signal="timeout" from="Timer_dificuldade" to="." method="_on_timer_dificuldade_timeout"]
+[connection signal="timeout" from="RichTextLabel/Timer" to="RichTextLabel" method="_on_timer_timeout"]
+[connection signal="timeout" from="Camera/Timer_camera" to="Camera" method="_on_timer_camera_timeout"]

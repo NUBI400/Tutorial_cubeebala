@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcaefxcyikjy4"]
+
+[ext_resource type="Texture2D" uid="uid://dn2tb1t1blyyq" path="res://WaveShooter/Square.png" id="1_7tifp"]
+[ext_resource type="Script" path="res://scripts/jogador.gd" id="2_pdybe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gqyg1"]
+size = Vector2(16, 16)
+
+[node name="jogador" type="Sprite2D"]
+modulate = Color(1, 0.298039, 0.741176, 1)
+position = Vector2(320, 180)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_7tifp")
+script = ExtResource("2_pdybe")
+
+[node name="Reload_speed" type="Timer" parent="."]
+wait_time = 0.101
+one_shot = true
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+visible = false
+shape = SubResource("RectangleShape2D_gqyg1")
+
+[node name="Reload_dash" type="Timer" parent="."]
+wait_time = 0.001
+one_shot = true
+
+[node name="Dash_timer" type="Timer" parent="Reload_dash"]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="Reload_speed" to="." method="_on_reload_speed_timeout"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="timeout" from="Reload_dash" to="." method="_on_reload_dash_timeout"]
+[connection signal="timeout" from="Reload_dash/Dash_timer" to="." method="_on_dash_timer_timeout"]
